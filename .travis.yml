@@ -14,6 +14,7 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t naregb/react-test -f ./client/Dockerfile.dev ./client
 
+
 script:
   - docker run -e CI=true naregb/react-test npm test
 
