@@ -2,6 +2,11 @@ sudo: required
 services:
   - docker
 
+env: 
+  global:
+    - SHA=$(git rev-parse HEAD)
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+
 before_install:
   - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_iv -in service-account.json.enc -out service-account.json -d
   - curl https://sdk.cloud.google.com | bash > /dev/null;
@@ -14,33 +19,11 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t naregb/react-test -f ./client/Dockerfile.dev ./client
 
-
 script:
   - docker run -e CI=true naregb/react-test npm test
 
-after_success:
-  - docker build -t naregb/multi-client ./client
-  - docker build -t naregb/multi-nginx ./nginx
-  - docker build -t naregb/multi-server ./server
-  - docker build -t naregb/multi-worker ./worker
-  # Log in to the CLI
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  # Take those images and push them to docker hub
-  - docker push naregb/multi-client
-  - docker push naregb/multi-nginx
-  - docker push naregb/multi-server
-  - docker push naregb/multi-worker
-
 deploy:
-  provider: elasticbeanstalk
-  region: us-east-1
-  app: multi-docker
-  env: MultiDocker-env
-  bucket_name: elasticbeanstalk-us-east-1-835746095792
-  bucket_path: docker-multi
+  provider: script
+  script: bash ./deploy.sh
   on:
-    branch: master
-  access_key_id: 
-    secure: $AWS_ACCESS_KEY
-  secret_access_key: 
-    secure: $AWS_SECRET_KEY
+   branch: master
