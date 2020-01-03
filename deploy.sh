@@ -6,9 +6,9 @@ docker push naregb/multi-client:latest
 docker push naregb/multi-server:latest
 docker push naregb/multi-worker:latest
 
-docker push naregb/multi-client:latest:$SHA
-docker push naregb/multi-server:latest:$SHA
-docker push naregb/multi-worker:latest:$SHA
+docker push naregb/multi-client:$SHA
+docker push naregb/multi-server:$SHA
+docker push naregb/multi-worker:$SHA
 
 kubectl apply -f k8s
 kubectl set image deployments/server-deployment server=naregb/multi-server:$SHA
