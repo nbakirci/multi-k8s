@@ -1,6 +1,6 @@
 docker build -t naregb/multi-client:latest -t naregb/multi-client:$SHA -f ./client/Dockerfile ./client
 docker build -t naregb/multi-server:latest -t naregb/multi-server:$SHA -f ./server/Dockerfile ./server
-docker build -t naregb/multi-worker:latest -t naregb/multi-worker:$SHA -f ./wokrer/Dockerfile ./worker
+docker build -t naregb/multi-worker:latest -t naregb/multi-worker:$SHA -f ./worker/Dockerfile ./worker
 docker push naregb/multi-client:latest
 docker push naregb/multi-server:latest
 docker push naregb/multi-worker:latest
