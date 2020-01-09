@@ -1,0 +1,21 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata: 
+  name: nareg-me-tls
+spec: 
+  secretName: nareg-me
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: nareg.me
+  dnsNames:
+    - nareg.me
+    - www.nareg.me
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+        domains: 
+          - nareg.me
+          - www.nareg.me
+
