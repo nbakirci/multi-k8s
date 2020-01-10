@@ -10,11 +10,11 @@ metadata:
 spec: 
   tls: 
     - hosts: 
-        - k8s-multi.com
-        - www.k8s-multi.com
-      secretName: k8s-multi-com
+        - nareg.me
+        - www.nareg.me
+      secretName: nareg-me
   rules: 
-    - hosts: k8s-multi.com
+    - hosts: nareg.me
       http: 
        paths: 
         - path: /?(.*)
@@ -25,7 +25,7 @@ spec:
           backend: 
             serviceName: server-cluster-ip-service
             servicePort: 5000
-    - hosts: www.k8s-multi.com
+    - hosts: www.nareg.me
       http: 
        paths: 
         - path: /?(.*)
